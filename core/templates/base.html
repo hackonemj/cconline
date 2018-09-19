@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static "/css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static "/css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+<body>
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="#">Ver perfil</a></li>
+    <li><a href="#">Editar perfil</a></li>
+    <li class="divider"></li>
+    {% if user.is_superuser %}
+        <li><a href="{% url 'conta:criar-conta' %}">Adicionar membros</a></li>
+    {% endif %}
+    <li><a href="{% url 'conta:sair' %}">Terminar sessão</a></li>
+</ul>
+<div class="navbar-fixed">
+    <nav class="white text-accent-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="{% url 'core:inicio' %}" class="brand-logo">Logo</a>
+            <ul class="right hide-on-med-and-down">
+                {% if user.is_authenticated %}
+                    {% if not user.is_staff %}
+                        <li><a href="#">Minhas viagens</a></li>
+                    {% else %}
+                        <li><a href="#">Link 1</a></li>
+                        <li><a href="#">Link 2</a></li>
+                        <li><a href="#">Link 3</a></li>
+                    {% endif %}
+                    <!-- Dropdown Trigger -->
+                    <li class="dropdown-trigger-li">
+                        <a class="dropdown-trigger" href="#!" data-target="dropdown1">
+                            <i class="material-icons">person_outline</i>
+                            {% comment %}<img src="{% static 'img/adult-afro.jpg' %}" alt="" class="circle">{% endcomment %}
+                        </a>
+                    </li>
+
+                {% endif %}
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">Navbar Link</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</div>
+<div>
+    {% block content %}
+
+
+    {% endblock %}
+</div>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static "/js/materialize.js" %}"></script>
+<script src="{% static "/js/init.js" %}"></script>
+<script type="text/javascript" src="{% block js %}{% endblock %}"></script>
+</body>
+</html>

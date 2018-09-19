@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Entrar{% endblock %}
+{% block content %}
+    <style>
+        .login-div {
+            margin: 50px auto;
+            width: 30%;
+            background-color: #3F51B5;
+            padding: 20px;
+        }
+
+        .collection .collection-item.avatar {
+            min-height: auto !important;
+            list-style: none;
+            padding: 0.5rem 1.2rem;
+        }
+
+        input {
+            height: 30px !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+        }
+
+        .errorlist {
+            text-align: center !important;
+            color: #ff7166 !important;
+        }
+    </style>
+    <div class="row login-div">
+        <h4 class="center-align white-text">Entrar</h4>
+        {% if not form.non_field_errors %}
+            <br>
+        {% endif %}
+        {{ form.non_field_errors }}
+        <form method="POST" action='.'>
+            {% csrf_token %}
+
+            <ul class="collection">
+                {% for field in form %}
+                    <li class="collection-item avatar">
+                        {% if field.label == "password" %}
+                            <i class="material-icons circle">lock</i>
+                        {% elif field.label == "email/username" %}
+                            <i class="material-icons circle">account_box</i>
+                        {% endif %}
+                        {{ field }}
+                        {{ field.errors }}
+                    </li>
+                {% endfor %}
+
+            </ul>
+            <button class="btn waves-effect waves-light red" type="submit" name="action">Enviar
+                <i class="material-icons right">send</i>
+            </button>
+
+        </form>
+        <p class="white-text">Esqueceu a senha? <a href="#" title="">Nova senha</a></p>
+    </div>
+{% endblock %}

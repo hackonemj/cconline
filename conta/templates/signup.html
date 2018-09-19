@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        form .row {
+            margin-bottom: 0px !important;
+        }
+
+        .errorlist {
+            text-align: center !important;
+            color: #ff7166 !important;
+        }
+
+    </style>
+    <div class="container">
+        <h4>Adicionar novo membro</h4>
+        <div class="row">
+            {{ form.non_field_errors }}
+            <form class="col s12" method="POST" action='.'>
+                {% csrf_token %}
+                <fieldset>
+                    <div class="row">
+                        {% for field in form %}
+
+                            {% if field.label == "Primeiro nome" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+
+                            {% elif field.label == "Último nome" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% elif field.label == "Senha" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% elif field.label == "Confirmação de Senha" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% elif field.label == "Utilizador" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+
+                            {% elif field.label == "Endereço de email" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <span class="helper-text" data-error="wrong"
+                                              data-success="right">{{ field.errors }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            {% elif field.label == "Nº do Funcionário" %}
+                                <div class="input-field col s6">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        {{ field.errors }}
+                                    {% endif %}
+                                </div>
+
+                            {% endif %}
+                        {% endfor %}
+                        <div class="input-field col s6 fixed">
+                            {{ form.user_type }}
+                            {{ form.user_type.invalid_choice }}
+                        </div>
+                    </div>
+
+                    <button class="btn waves-effect waves-light red" type="submit" name="action">Enviar
+                        <i class="material-icons right">send</i>
+                    </button>
+                </fieldset>
+            </form>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    (function ($) {
+    $(function () {
+    $('select').formSelect();
+    }); // end of document ready
+    })(jQuery); // end of jQuery name space
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Criar serviço{% endblock %}
+{% block js %}
+    {% static "/js/core-driver.js" %}
+{% endblock %}
+{% block content %}
+    <style>
+        #modal1 {
+            outline: none !important;
+            min-height: 470px;
+        }
+
+        #finalizar-servico-modal {
+            outline: none !important;
+            max-height: 270px !important;
+            max-width: 600px;
+        }
+
+        .modal .modal-footer button {
+            margin: 0 auto !important;
+            display: block !important;
+        }
+    </style>
+    <div class="container">
+        <div class="section">
+
+            <!--   Icon Section   -->
+            <div class="row">
+                <div>
+                    <p class="center">SERVIÇO DIÁRIO</p>
+
+                    {% if servico_diario %}
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Matricula</th>
+                                <th>Km inicial</th>
+                                <th>Km final</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                {% for sd in servico_diario %}
+                                    <td>{{ sd.codigo_do_servico }}</td>
+                                    <td>{{ sd.automovel.matricula }}</td>
+                                    <td>{{ sd.km_inicial }}</td>
+                                    <td>{{ sd.km_final }}</td>
+                                    <td style="width: 142px">
+                                        <a href="#finalizar-servico-modal" class="modal-trigger servico-diario"
+                                           onclick="finalizarServico('{{ sd.id }}', '{% url 'core:ajax_finalizar_servico' id=sd.id %}')">
+                                            <span class="new badge red waves-effect waves-light btn"
+                                                    data-badge-caption="Concluir serviço">
+                                            </span>
+                                         </a>
+                                    </td>
+                                {% empty %}
+
+                                {% endfor %}
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="collection">
+                            <p class="collection-item black-text center">Sem serviço activo, por favor cria novo
+                                serviço!
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Modal Structure -->
+                <div id="modal1" class="modal modal-fixed-footer">
+                    <form method="Post">
+                        {% csrf_token %}
+                        <div class="modal-content">
+                            <p class="center">CRIAR SERVIÇO</p>
+                            {{ form }}
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn waves-effect waves-light red" type="submit" name="action">Iniciar serviço
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+
+
+                <!-- Modal Structure for finalize trip-->
+                <div id="finalizar-servico-modal" class="modal modal-fixed-footer">
+                    <form method="Post" class="finalizar-servico-form" action="{% url 'core:inicio' %}">
+                        {% csrf_token %}
+                        <div class="modal-content">
+                            <p class="center">CONCLUIR SERVIÇO</p>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for="id_km_final">Kilometros finais:</label>
+                                    <input name="km_final" min="0" max="9223372036854775807" required=""
+                                           id="id_km_final" type="number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn waves-effect waves-light red" type="submit" name="action">Finalizar
+                                serviço
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fixed-action-btn">
+        <!-- Modal Trigger -->
+        {% if has_active_SD %}
+            <a class="btn-floating btn-large waves-effect waves-light grey disabled-btn-sd"
+               data-position="left"><i
+                    class="material-icons">add</i>
+            </a>
+        {% else %}
+            <a class="btn-floating btn-large waves-effect waves-light red modal-trigger tooltipped"
+               href="#modal1"
+               data-position="left" data-tooltip="Iniciar novo serviço"><i
+                    class="material-icons">add</i>
+            </a>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
