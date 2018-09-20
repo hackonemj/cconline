@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Minhas Viagens{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div>
+                <p class="center">MINHAS VIAGENS</p>
+
+                {% if servicos_diarios %}
+                    {% comment %}<table>
+                        <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Matricula</th>
+                            <th>Km inicial</th>
+                            <th>Km final</th>
+                            <th>Início</th>
+                            <th>Término</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for sd in servicos_diarios %}
+                            <tr>
+                                <td>{{ sd.servico.cliente }}/{{ sd.servico.nome }}</td>
+                                <td>{{ sd.automovel.matricula }}</td>
+                                <td>{{ sd.km_inicial }} km</td>
+                                <td>{{ sd.km_final }} km</td>
+                                <td>{{ sd.created_at|date:"d/M/Y" }}-{{ sd.created_at|time:"H:i" }}</td>
+                                <td>{{ sd.finished_at|date:"d/M/Y" }}-{{ sd.finished_at|time:"H:i" }}</td>
+                            </tr>
+                        {% empty %}
+
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>{% endcomment %}
+
+                    {% for sd in servicos_diarios %}
+                        <div class="col s12 m4">
+                            <div class="card grey darken-1">
+                                <div class="card-content white-text">
+                                    <p>{{ sd.servico.cliente }}/{{ sd.servico.nome }}</p>
+                                    <p>{{ sd.automovel.matricula }}</p>
+                                    <p>Km inicial: {{ sd.km_inicial }}</p>
+                                    <p>Km final: {{ sd.km_final }}</p>
+                                    <p>Início: {{ sd.created_at|time:"H:i" }} de {{ sd.created_at|date:"d M Y" }}</p>
+                                    <p>Término: {{ sd.finished_at|time:"H:i" }} de {{ sd.finished_at|date:"d M Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+
+                    {% endfor %}
+                {% else %}
+                    <div class="collection">
+                        <p class="collection-item black-text center">Serviços não disponiveis ou não concluído, por
+                            favor cria novo
+                            serviço!
+                        </p>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+

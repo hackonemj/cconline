@@ -14,6 +14,7 @@
 <body>
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
+    <li><a>{{ user.username |capfirst }}</a></li>
     <li><a href="#">Ver perfil</a></li>
     <li><a href="#">Editar perfil</a></li>
     <li class="divider"></li>
@@ -29,11 +30,12 @@
             <ul class="right hide-on-med-and-down">
                 {% if user.is_authenticated %}
                     {% if not user.is_staff %}
-                        <li><a href="#">Minhas viagens</a></li>
+                        <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
                     {% else %}
-                        <li><a href="#">Link 1</a></li>
-                        <li><a href="#">Link 2</a></li>
-                        <li><a href="#">Link 3</a></li>
+                        <li><a href="#">Automóvel</a></li>
+                        <li><a href="#">Serviço</a></li>
+                        <li><a href="#">Serviço diário</a></li>
+                        <li><a href="#">Recurso humano</a></li>
                     {% endif %}
                     <!-- Dropdown Trigger -->
                     <li class="dropdown-trigger-li">
@@ -47,7 +49,25 @@
             </ul>
 
             <ul id="nav-mobile" class="sidenav">
-                <li><a href="#">Navbar Link</a></li>
+                <li><a>{{ user.username|capfirst}}</a></li>
+                {% if user.is_authenticated %}
+                    {% if not user.is_staff %}
+                        <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
+                    {% else %}
+                        <li><a href="#">Automóvel</a></li>
+                        <li><a href="#">Serviço</a></li>
+                        <li><a href="#">Serviço diário</a></li>
+                        <li><a href="#">Recurso humano</a></li>
+                    {% endif %}
+
+                    <li><a href="#">Ver perfil</a></li>
+                    <li><a href="#">Editar perfil</a></li>
+                    <li class="divider"></li>
+                    {% if user.is_superuser %}
+                        <li><a href="{% url 'conta:criar-conta' %}">Adicionar membros</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'conta:sair' %}">Terminar sessão</a></li>
+                {% endif %}
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>

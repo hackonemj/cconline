@@ -19,7 +19,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.encontrou) {
-                    $('#id_descricao_servico').val(data.servico_descricao);
+                    $('#id_descricao_servico').val(data.cliente + " / " + data.nome);
                     $('#id_descricao_servico').css("color", "#333");
                 }
                 else {
@@ -44,6 +44,7 @@ $(document).ready(function () {
                 if (data.encontrou) {
                     $('#id_automovel_modelo').val(data.automovel_modelo);
                     $('#id_automovel_modelo').css("color", "#333");
+                    $('#id_km_inicial').val(data.automovel_km_actual);
                 }
                 else {
                     $('#id_automovel_modelo').val('*matricula não encontrada');
@@ -58,9 +59,8 @@ $(document).ready(function () {
 });
 
 function finalizarServico(id, url) {
-    console.log("create post is working!" + id); // sanity check
     // Submit post on submit
-    $('.finalizar-servico-form').on('submit', function (event) {
+    $('.finalizar-servico-form').on('click', function (event) {
         var km_final = $('#id_km_final').val();
         //event.preventDefault();
         $.ajax({
@@ -72,12 +72,11 @@ function finalizarServico(id, url) {
             },
             dataType: 'json',
             success: function (data) {
-                console.log("form submitted!"); // sanity check
-            }
+
+            },
         });
-
-        $('#finalizar-servico-modal').modal('close');
+        //$('#finalizar-servico-modal').modal('close');
     });
-
 }
+
 

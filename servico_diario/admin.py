@@ -5,6 +5,6 @@ from .models import ServicoDiario
 @admin.register(ServicoDiario)
 class ServicoDiarioAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'automovel', 'condutor', 'codigo_do_servico', 'km_inicial', 'km_final', 'estado_concluido', 'supervisor', 'validar_servico'
+        'id', 'automovel', 'condutor', 'servico', 'km_inicial', 'km_final', 'estado_concluido', 'supervisor', 'validar_servico'
     )
     list_filter = ('created_at', 'update_at')

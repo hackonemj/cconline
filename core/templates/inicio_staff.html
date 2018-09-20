@@ -2,60 +2,67 @@
 {% load static %}
 {% block title %}Bem-vindo, {{ user.username }}{% endblock %}
 {% block content %}
+    <style>
+        .tabs .tab a:focus, .tabs .tab a:focus.active {
+            background-color: rgba(5, 13, 19, 0.27);
+            outline: none;
+            color: #333
+        }
 
-    <div id="index-banner" class="parallax-container">
-        <div class="section no-pad-bot">
-            <div class="container">
-                <br>
-                <br>
-                <h1 class="header center teal-text text-lighten-2">Bem-vindo, {{ user.username }}</h1>
-                <br>
-                <br>
-            </div>
-        </div>
-        <div class="parallax"><img src="{% static 'img/Ocean_by_Shu_Le.jpg' %}" alt="Unsplashed background img 1"></div>
-    </div>
+        .tabs .indicator {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background-color: #9E9E9E;
+            will-change: left, right;
+        }
 
-    <div class="container">
+        .tabs .tab a:hover, .tabs .tab a.active {
+            background-color: transparent;
+            color: #333;
+        }
+
+        .tabs .tab a {
+            color: #9E9E9E;
+        }
+    </style>
+    <div class="row">
         <div class="section">
-
-            <!--   Icon Section   -->
-            <div class="row">
+            <ul id="tabs-swipe-demo" class="tabs">
+                <li class="tab col s3"><a href="#test-swipe-1">Concluídos</a></li>
+                <li class="tab col s3"><a class="active" href="#test-swipe-2">Pendentes</a></li>
+            </ul>
+            <div id="test-swipe-1" class="col s12">
                 <div class="col s12 m4">
                     <div class="icon-block">
                         <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
                         <h5 class="center">Speeds up development</h5>
 
                         <p class="light">We did most of the heavy lifting for you to provide a default stylings that
-                            incorporate our custom components. Additionally, we refined animations and transitions to
+                            incorporate our custom components. Additionally, we refined animations and transitions
+                            to
                             provide a smoother experience for developers.</p>
                     </div>
                 </div>
-
+            </div>
+            <div id="test-swipe-2" class="col s12">
                 <div class="col s12 m4">
                     <div class="icon-block">
                         <h2 class="center brown-text"><i class="material-icons">group</i></h2>
                         <h5 class="center">User Experience Focused</h5>
 
-                        <p class="light">By utilizing elements and principles of Material Design, we were able to create
-                            a framework that incorporates components and animations that provide more feedback to users.
-                            Additionally, a single underlying responsive system across all platforms allow for a more
+                        <p class="light">By utilizing elements and principles of Material Design, we were able to
+                            create
+                            a framework that incorporates components and animations that provide more feedback to
+                            users.
+                            Additionally, a single underlying responsive system across all platforms allow for a
+                            more
                             unified user experience.</p>
-                    </div>
-                </div>
-
-                <div class="col s12 m4">
-                    <div class="icon-block">
-                        <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-                        <h5 class="center">Easy to work with</h5>
-
-                        <p class="light">We have provided detailed documentation as well as specific code examples to
-                            help new users get started. We are also always open to feedback and can answer any questions
-                            a user may have about Materialize.</p>
                     </div>
                 </div>
             </div>
 
         </div>
+
     </div>
 {% endblock %}

@@ -71,7 +71,10 @@ nav ul .dropdown-trigger:hover, nav ul .dropdown-trigger:focus {
     transition: color .3s;
 
 }
-
+.sidenav-overlay{
+    background-color: transparent;
+    z-index: 0;
+}
 /*
 nav ul .dropdown-trigger-li img {
     width: 45px;

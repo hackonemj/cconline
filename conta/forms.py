@@ -36,10 +36,10 @@ class UserCreationForm(forms.ModelForm):
         user_type = self.cleaned_data.get("user_type")
         user = super(UserCreationForm, self).save(commit=False)
         if user_type == 'Supervisor':  # Se o utilizador for supervisor terá as permissões de Supervisor
-            user.supervisor = True
+            user.is_supervisor = True
             user.is_staff = True
         else:  # O utilizador terá as permissões de condutor
-            user.condutor = True
+            user.is_condutor = True
             user.is_staff = False
             user.set_password(self.cleaned_data['password1'])
 

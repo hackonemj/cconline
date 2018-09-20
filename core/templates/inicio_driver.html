@@ -8,7 +8,10 @@
     <style>
         #modal1 {
             outline: none !important;
-            min-height: 470px;
+            min-height: 480px!important;
+        }
+        #modal1 .modal-content{
+            padding: 0 24px!important;
         }
 
         #finalizar-servico-modal {
@@ -20,6 +23,34 @@
         .modal .modal-footer button {
             margin: 0 auto !important;
             display: block !important;
+        }
+
+        .errorlist {
+            color: #f93f3f;
+        }
+
+        #modal1 input {
+            height: 25px!important;
+        }
+
+        #modal1 textarea {
+            min-height: 20px !important;
+        }
+
+        @media only screen and (max-width: 500px) {
+            #modal1 {
+                outline: none !important;
+                min-height: 450px;
+                min-width: 300px;
+            }
+
+            #modal1 input {
+                height: 20px;
+            }
+
+            #modal1 textarea {
+                min-height: 25px !important;
+            }
         }
     </style>
     <div class="container">
@@ -42,24 +73,24 @@
                             </thead>
 
                             <tbody>
-                            <tr>
-                                {% for sd in servico_diario %}
-                                    <td>{{ sd.codigo_do_servico }}</td>
+                            {% for sd in servico_diario %}
+                                <tr>
+                                    <td>{{ sd.servico.cliente }}/{{ sd.servico.nome }}</td>
                                     <td>{{ sd.automovel.matricula }}</td>
-                                    <td>{{ sd.km_inicial }}</td>
-                                    <td>{{ sd.km_final }}</td>
+                                    <td>{{ sd.km_inicial }} km</td>
+                                    <td>{{ sd.km_final }} km</td>
                                     <td style="width: 142px">
                                         <a href="#finalizar-servico-modal" class="modal-trigger servico-diario"
                                            onclick="finalizarServico('{{ sd.id }}', '{% url 'core:ajax_finalizar_servico' id=sd.id %}')">
                                             <span class="new badge red waves-effect waves-light btn"
-                                                    data-badge-caption="Concluir serviço">
+                                                  data-badge-caption="Concluir serviço">
                                             </span>
-                                         </a>
+                                        </a>
                                     </td>
-                                {% empty %}
+                                </tr>
+                            {% empty %}
 
-                                {% endfor %}
-                            </tr>
+                            {% endfor %}
 
                             </tbody>
                         </table>
@@ -101,6 +132,7 @@
                                     <label for="id_km_final">Kilometros finais:</label>
                                     <input name="km_final" min="0" max="9223372036854775807" required=""
                                            id="id_km_final" type="number">
+                                    <span class="helper-text" data-error="wrong" data-success="right">*O serviço não pode ser concluído com valor inferior a kilometragem inicial</span>
                                 </div>
                             </div>
                         </div>
