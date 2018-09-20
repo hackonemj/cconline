@@ -1,46 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abd8a1e9-4d0c-431b-9c5f-1fb0f11e17dd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/core/templates/minhas_viagens.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/automovel/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0002_auto_20180918_2233.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0003_auto_20180918_2234.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0004_auto_20180918_2235.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0005_auto_20180918_2235.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0006_auto_20180918_2236.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0007_auto_20180918_2236.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0008_auto_20180918_2237.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/0009_auto_20180918_2238.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/automovel/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/conta/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/conta/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conta/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/conta/migrations/0002_auto_20180919_0051.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/conta/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/core/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/static/js/core-driver.js" beforeDir="false" afterPath="$PROJECT_DIR$/core/static/js/core-driver.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/static/js/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/core/static/js/init.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/templates/inicio_driver.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/inicio_driver.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/templates/inicio_staff.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/inicio_staff.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/recurso_humano/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/recurso_humano/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/servico_diario/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/servico_diario/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/migrations/0002_auto_20180918_1606.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/migrations/0003_auto_20180918_1620.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/migrations/0004_auto_20180918_2325.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servico_diario/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/servico_diario/models.py" afterDir="false" />
-    </list>
+    <list default="true" id="abd8a1e9-4d0c-431b-9c5f-1fb0f11e17dd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,16 +40,18 @@
         <counts>
           <entry key="Django Console" value="6" />
           <entry key="css" value="42" />
-          <entry key="html" value="1884" />
+          <entry key="html" value="1908" />
           <entry key="js" value="654" />
           <entry key="py" value="4233" />
+          <entry key="txt" value="41" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="42" />
-          <entry key="HTML" value="1884" />
+          <entry key="HTML" value="1908" />
           <entry key="JavaScript" value="654" />
+          <entry key="PLAIN_TEXT" value="41" />
           <entry key="Python" value="4239" />
         </counts>
       </usages-collector>
@@ -99,8 +62,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/templates/inicio_staff.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="30" column="48" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
+            <state relative-caret-position="253">
+              <caret line="67" column="14" lean-forward="true" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -212,17 +175,6 @@
             <path>
               <item name="cconline" type="b2602c69:ProjectViewProjectNode" />
               <item name="cconline" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cconline" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cconline" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cconline" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cconline" type="462c0819:PsiDirectoryNode" />
               <item name="servico_diario" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -286,6 +238,21 @@
       <option name="presentableId" value="Default" />
       <updated>1537118072412</updated>
     </task>
+    <task id="LOCAL-00001" summary="Novas alterações no modo condutor">
+      <created>1537469400181</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1537469400181</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Novas alterações no modo condutor">
+      <created>1537469431668</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1537469431668</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -320,6 +287,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Novas alterações no modo condutor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Novas alterações no modo condutor" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/cconline/urls.py">
@@ -446,6 +417,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -545,8 +519,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/templates/inicio_staff.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="30" column="48" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
+        <state relative-caret-position="253">
+          <caret line="67" column="14" lean-forward="true" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
         </state>
       </provider>
     </entry>
