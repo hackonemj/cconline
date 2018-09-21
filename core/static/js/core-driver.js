@@ -64,7 +64,7 @@ function finalizarServico(id, url) {
         var km_final = $('#id_km_final').val();
         //event.preventDefault();
         $.ajax({
-            type: "Get",
+            type: "Post",
             url: url,
             data: {
                 'id': id,
