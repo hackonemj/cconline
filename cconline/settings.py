@@ -24,7 +24,7 @@ SECRET_KEY = 'h5w(lxk)35(tw@=5^l99)w*kej%oj*b+mp9ye^&4+^_le0lzq('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['46.101.18.235']
 
 # Application definition
 
@@ -82,8 +82,12 @@ WSGI_APPLICATION = 'cconline.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cconline_prod',
+        'USER': 'cconline',
+        'PASSWORD': 'Mjunior18',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
