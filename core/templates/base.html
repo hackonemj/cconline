@@ -44,7 +44,7 @@
                         <li><a href="{% url 'core:inicio' %}">Criar serviço</a></li>
                         <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
                     {% else %}
-                        <li><a href="{% url 'automovel:lista' %}">Inicio</a></li>
+                        <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
                         <li><a href="{% url 'automovel:lista' %}">Automóvel</a></li>
                         <li><a href="{% url 'servico:lista' %}">Serviço</a></li>
                         <li><a href="{% url 'recurso-humano:lista' %}">Recurso humano</a></li>
@@ -66,7 +66,7 @@
                     {% if not user.is_staff %}
                         <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
                     {% else %}
-                        <li><a href="{% url 'automovel:lista' %}">Inicio</a></li>
+                        <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
                         <li><a href="{% url 'automovel:lista' %}">Automóvel</a></li>
                         <li><a href="{% url 'servico:lista' %}">Serviço</a></li>
                         <li><a href="{% url 'recurso-humano:lista' %}">Recurso humano</a></li>

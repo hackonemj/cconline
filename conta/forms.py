@@ -55,7 +55,7 @@ class UserChangeForm(UserChangeForm):
 
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'E-mail/Utilizador/Nº do Funcionário'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'E-mail / Utilizador / Nº do Funcionário'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Palavra-passe'}))
 
     def clean(self, *args, **kwargs):
