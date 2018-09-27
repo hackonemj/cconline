@@ -1,10 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends  'base.html' %}
+
+{% block content %}
+
+    <!-- Navbar goes here -->
+
+    <!-- Page Layout here -->
+    <div class="container row">
+        <div class="col s12">
+            <br>
+            <p class="center">SERVIÇO</p>
+            <table class="responsive-table striped">
+                <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th>Código</th>
+                    <th>Zona</th>
+                    <th>Cliente</th>
+                    <th>Nome</th>
+                    <th>Valor dia</th>
+                    <th>Portagens</th>
+                    <th>Banca</th>
+                    <th>Fatura</th>
+                </tr>
+                </thead>
+                <tbody class="center">
+                {% for servico in servicos %}
+                    <tr>
+                        <td>{{ servico.activo }}</td>
+                        <td>{{ servico.codigo }}</td>
+                        <td>{{ servico.zona }}</td>
+                        <td>{{ servico.cliente }}</td>
+                        <td>{{ servico.nome }}</td>
+                        <td>{{ servico.valor_dia|default_if_none:"---" }} €</td>
+                        <td>{{ servico.portagens|default_if_none:"---" }}€</td>
+                        <td>{{ servico.banca|default_if_none:"---" }} €</td>
+                        <td>{{ servico.fatura|default_if_none:"---" }}</td>
+                    </tr>
+                {% empty %}
+                    <p>No servico yet.</p>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <br>
+            <br>
+
+            <ul class="pagination">
+                {% if servicos.has_previous %}
+                    <a class="waves-effect waves-light btn brown darken-1 b-radius" href="?page=1">Primeira</a>
+                    <li class="waves-effect"><a href="?page={{ servicos.previous_page_number }}"><i
+                            class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+
+                <li class="active red brown darken-1"><a href="#!">{{ servicos.number }}</a></li>
+
+                <li><a> de </a></li>
+
+                <li class="waves-effect">
+                    <a href="?page={{ servicos.paginator.num_pages }}">{{ servicos.paginator.num_pages }}</a>
+                </li>
+
+                {% if servicos.has_next %}
+                    <li class="waves-effect"><a href="?page={{ servicos.next_page_number }}"><i
+                            class="material-icons">chevron_right</i></a></li>
+                    <a class="waveservicos-effect waves-light btn brown darken-1 b-radius"
+                       href="?page={{ servicos.paginator.num_pages }}">Última
+                    </a>
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .forms import UserCreationForm, UserLoginForm
 
-
+@login_required
 def criar_conta(request, *args, **kwargs):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():

@@ -64,17 +64,37 @@ nav ul .dropdown-trigger-li i {
 }
 
 nav ul .dropdown-trigger:hover, nav ul .dropdown-trigger:focus {
-    background: #F44336 !important;
+    background: #6d4c41 !important;
     outline-style: none;
     color: white !important;
     transition: background-color .3s;
     transition: color .3s;
 
 }
-.sidenav-overlay{
+
+nav .person-name {
+    max-width: 200px;
+    margin: 0 auto;
+}
+nav .person-name a{
+    display: flex;
+}
+nav .person-name a:hover{
+    cursor: initial;
+    background-color: transparent;
+}
+nav .person-name i {
+    /*background: #6d4c41;
+    padding: 0 21px;*/
+    display: inline-flex;
+    color: #333;
+}
+
+.sidenav-overlay {
     background-color: transparent;
     z-index: 0;
 }
+
 /*
 nav ul .dropdown-trigger-li img {
     width: 45px;
@@ -105,4 +125,12 @@ nav ul .dropdown-trigger-li img:hover {
 
 .dropdown-content li {
     min-height: auto !important;
+}
+
+body .b-radius{
+    border-radius: 20px!important;
+}
+
+td, th {
+    padding: 5px;
 }

@@ -9,7 +9,11 @@ class Servico(models.Model):
     nome = models.CharField('Nome', max_length=50)
     valor_dia = models.PositiveIntegerField('Valor dia', null=True)
     portagens = models.DecimalField('Postagens', decimal_places=2, max_digits=12, null=True)
+    banca = models.PositiveIntegerField('Banca', null=True)
     fatura = models.CharField('Fatura', max_length=30, null=True)
 
     def __str__(self):
-        return self.zona
+        return '{} - {}'.format(self.zona, self.nome)
+
+    class Meta:
+        ordering = ['zona', ]

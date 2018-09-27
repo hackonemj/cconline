@@ -25,6 +25,20 @@
             text-align: center !important;
             color: #ff7166 !important;
         }
+
+        @media only screen and (max-width: 800px) {
+            .login-div {
+                margin: 50px auto;
+                width: 50%;
+                background-color: #3F51B5;
+                padding: 20px;
+            }
+                @media only screen and (max-width: 500px) {
+                .login-div {
+                    width: 80%;
+                }
+            }
+        }
     </style>
     <div class="row login-div">
         <h4 class="center-align white-text">Entrar</h4>
@@ -49,7 +63,7 @@
                 {% endfor %}
 
             </ul>
-            <button class="btn waves-effect waves-light red" type="submit" name="action">Enviar
+            <button class="btn waves-effect waves-light red b-radius" type="submit" name="action">Enviar
                 <i class="material-icons right">send</i>
             </button>
 

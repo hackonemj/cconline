@@ -15,7 +15,7 @@ class ServicoDiario(models.Model):
     estado_concluido = models.BooleanField('Serviço concluído')
     validar_servico = models.BooleanField('Validar servico')
     supervisor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='supervisor', blank=True, null=True)
-    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    created_at = models.DateField('Criado em', auto_now_add=True)
     finished_at = models.DateTimeField('Concluído em', blank=True, null=True)
     update_at = models.DateTimeField(auto_now=True)
 

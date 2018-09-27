@@ -1,10 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends  'base.html' %}
+
+{% block content %}
+
+    <!-- Navbar goes here -->
+
+    <!-- Page Layout here -->
+    <div class="container row">
+        <div class="col s12">
+            <br>
+            <p class="center">AUTOMÓVEL</p>
+            <table class="responsive-table striped">
+                <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th>Dono</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Matricula</th>
+                    <th>Data Matricula</th>
+                    <th>CO</th>
+                    <th>Cartrack</th>
+                    <th>Combustivel</th>
+                    <th>Prestação</th>
+                </tr>
+                </thead>
+                <tbody class="center">
+                {% for automovel in automoveis %}
+                    <tr>
+                        <td>{{ automovel.activo }}</td>
+                        <td>{{ automovel.dono }}</td>
+                        <td>{{ automovel.marca }}</td>
+                        <td>{{ automovel.modelo }}</td>
+                        <td>{{ automovel.matricula }}</td>
+                        <td>{{ automovel.data_matricula|default_if_none:"---" }}</td>
+                        <td>{{ automovel.co|default_if_none:"---" }}</td>
+                        <td>{{ automovel.cartrack|default_if_none:"---" }}</td>
+                        <td>{{ automovel.combustivel|default_if_none:"---" }}</td>
+                        <td>{{ automovel.prestacao|default_if_none:"---" }}</td>
+                    </tr>
+                {% empty %}
+                    <p>No automovel yet.</p>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <br>
+            <br>
+
+            <ul class="pagination">
+                {% if automoveis.has_previous %}
+                    <a class="waves-effect waves-light btn brown darken-1 b-radius" href="?page=1">Primeira</a>
+                    <li class="waves-effect"><a href="?page={{ automoveis.previous_page_number }}"><i
+                            class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+
+                <li class="active red brown darken-1"><a href="#!">{{ automoveis.number }}</a></li>
+
+                <li><a> de </a></li>
+
+                <li class="waves-effect">
+                    <a href="?page={{ automoveis.paginator.num_pages }}">{{ automoveis.paginator.num_pages }}</a>
+                </li>
+
+                {% if automoveis.has_next %}
+                    <li class="waves-effect"><a href="?page={{ automoveis.next_page_number }}"><i
+                            class="material-icons">chevron_right</i></a></li>
+                    <a class="waveautomoveis-effect waves-light btn brown darken-1 b-radius"
+                       href="?page={{ automoveis.paginator.num_pages }}">Última
+                    </a>
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+{% endblock %}

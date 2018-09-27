@@ -1,68 +1,186 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Bem-vindo, {{ user.username }}{% endblock %}
+{% block title %}{{ user.username }}{% endblock %}
 {% block content %}
     <style>
-        .tabs .tab a:focus, .tabs .tab a:focus.active {
-            background-color: rgba(5, 13, 19, 0.27);
-            outline: none;
-            color: #333
-        }
-
         .tabs .indicator {
             position: absolute;
             bottom: 0;
             height: 2px;
-            background-color: #9E9E9E;
+            background-color: #bdbdbd;
             will-change: left, right;
-        }
-
-        .tabs .tab a:hover, .tabs .tab a.active {
-            background-color: transparent;
-            color: #333;
         }
 
         .tabs .tab a {
             color: #9E9E9E;
         }
+
+        table.highlight > tbody > tr:hover {
+            background-color: #cfd8dc;
+        }
+
+        .datepicker {
+            max-width: 100px;
+        }
+
+        .select-dropdown span {
+            color: #333 !important;
+        }
+
+        .pendente {
+            border: 2px solid #e57373;
+            background-color: transparent !important;
+            color: #333 !important;
+            webkit-transition: color .28s ease, background-color .28s ease;
+            transition: color .28s ease, background-color .28s ease;
+        }
+
+        .pendente:hover, .pendente:active, .pendente:focus, .pendente.active {
+            background-color: #e57373 !important;
+            color: white !important;
+            text-shadow: 0 0 2px black;
+            transition: background-color 3s;
+            transition: border 3s;
+        }
+
+        .concluido {
+            border: 2px solid #81c784;
+            background-color: transparent !important;
+            color: #333 !important;
+            webkit-transition: color .28s ease, background-color .28s ease;
+            transition: color .28s ease, background-color .28s ease;
+        }
+
+        .concluido:hover, .concluido:active, .concluido:focus, .concluido.active {
+            background-color: #81c784 !important;
+            color: white !important;
+            text-shadow: 0 0 2px black;
+        }
+
+        .tabs .tab a:hover, .tabs .tab a.active {
+            background-color: initial;
+            color: initial;
+        }
+
+        .tabs .tab a:focus, .tabs .tab a:focus.active {
+            background-color: initial;
+            outline: none;
+            color: initial;
+        }
+        .collection-title{
+            font-size: 1rem!important;
+            font-weight: bold;
+        }
     </style>
     <div class="row">
         <div class="section">
-            <ul id="tabs-swipe-demo" class="tabs">
-                <li class="tab col s3"><a href="#test-swipe-1">Concluídos</a></li>
-                <li class="tab col s3"><a class="active" href="#test-swipe-2">Pendentes</a></li>
-            </ul>
-            <div id="test-swipe-1" class="col s12">
-                <div class="col s12 m4">
-                    <div class="icon-block">
-                        <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-                        <h5 class="center">Speeds up development</h5>
-
-                        <p class="light">We did most of the heavy lifting for you to provide a default stylings that
-                            incorporate our custom components. Additionally, we refined animations and transitions
-                            to
-                            provide a smoother experience for developers.</p>
+            <div class="col m6">
+                <form method="GET" class="">
+                    <div class="row">
+                        {% for field in filter.form %}
+                            {% if field.label == "Servico" %}
+                                <div class="input-field col s4">{{ field }}</div>
+                            {% else %}
+                                <div class="input-field col s2">{{ field }}</div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="input-field col s2">
+                            <button type="submit" class="btn btn-small waves-effect brown darken-1 b-radius">Pesquisar
+                            </button>
+                        </div>
                     </div>
+                </form>
+            </div>
+            <ul id="tabs-swipe-demo" class="tabs">
+                <li class="tab col s3"><a class="active pendente" href="#pendentes">Pendentes</a></li>
+                <li class="tab col s3"><a href="#concluidos" class="concluido">Concluídos</a></li>
+            </ul>
+            <div id="concluidos" class="col s12">
+                <div>
+                    {% if filter.qs %}
+                        <table class="striped highlight">
+                            <thead>
+                            <tr>
+                                <th>Condutor</th>
+                                <th>Automóvel</th>
+                                <th>Serviço</th>
+                                <th>Data</th>
+                                <th>Km inicial</th>
+                                <th>Km final</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for sd in filter.qs %}
+                                <tr>
+                                    <td>{{ sd.condutor.get_full_name }}</td>
+                                    <td>{{ sd.automovel }}</td>
+                                    <td>{{ sd.servico }}</td>
+                                    <td>{{ sd.created_at }}</td>
+                                    <td>{{ sd.km_inicial }}</td>
+                                    <td>{{ sd.km_final }}</td>
+                                    <td>
+                                        <a class="btn-floating btn-small waves-effect waves-light green darken-3 tooltipped"
+                                           href="{% url 'core:validar_servico_diario' sd.id %}?next={{ request.path|urlencode }}"
+                                           data-position="left" data-tooltip="Validar serviço">
+                                            <i class="material-icons">add</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <br>
+                        <br>
+                        <p class="center">Pesquisa não encontrada</p>
+                    {% endif %}
                 </div>
             </div>
-            <div id="test-swipe-2" class="col s12">
-                <div class="col s12 m4">
-                    <div class="icon-block">
-                        <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-                        <h5 class="center">User Experience Focused</h5>
 
-                        <p class="light">By utilizing elements and principles of Material Design, we were able to
-                            create
-                            a framework that incorporates components and animations that provide more feedback to
-                            users.
-                            Additionally, a single underlying responsive system across all platforms allow for a
-                            more
-                            unified user experience.</p>
+            <div id="pendentes" class="col s12">
+                <div class="row">
+                    <div class="col s4">
+                        <ul class="collection">
+                            <li class="collection-item"><h5 class="collection-title">Serviço</h5></li>
+                            {% for x in servico_pendentes %}
+                                <li class="collection-item">
+                                    <div>{{ x.zona }} - {{ x.cliente }} - {{ x.nome }}</div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="col s4">
+                        <ul class="collection">
+                            <li class="collection-item"><h5 class="collection-title">Recurso Humano</h5></li>
+                            {% for rh in rh_pendentes %}
+                                <li class="collection-item">
+                                    <div>{{ rh.numero_funcionario }} - {{ rh.nome_completo }}</div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="col s4">
+                        <ul class="collection">
+                            <li class="collection-item"><h5 class="collection-title">Automóvel</h5></li>
+                            {% for auto in automovel_pendentes %}
+                                <li class="collection-item">
+                                    <div>{{ auto.marca }} - {{ auto.matricula }}</div>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
+
             </div>
 
         </div>
 
     </div>
+{% endblock %}
+{% block js %}
+    {% static "/js/core-staff.js" %}
 {% endblock %}

@@ -1,13 +1,18 @@
 import datetime
 
-from django.http import JsonResponse, Http404
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 from automovel.models import Automovel
 from conta.models import User
+from core.filters import ServicoDiarioFilter
+from recurso_humano.models import RecursoHumano
 from servico.models import Servico
 from servico_diario.forms import CondutorServicoDiarioForm
 from servico_diario.models import ServicoDiario
+
+from django.core.paginator import Paginator
 
 
 def inicio(request):
@@ -18,10 +23,75 @@ def inicio(request):
 
     else:
         if user.is_staff:
+            servico_id = None
+            if 'servico' in request.GET:
+                temp_sd = request.GET.get('servico', False)
+                servico_id = temp_sd
+
+            rh_pendentes = []
+            servico_pendentes = []
+            automovel_pendentes = []
+
             template_staff = 'inicio_staff.html'
             template_name = template_staff
+            sd_filter = ServicoDiarioFilter(request.GET, queryset=ServicoDiario.objects.filter(validar_servico=False))
+
+            if ServicoDiario.objects.all() and servico_id:
+                if not sd_filter.qs.all():
+                    temp_SD = get_object_or_404(Servico, id=servico_id)
+
+                    # Servico
+                    for s in Servico.objects.filter(zona__iexact=temp_SD.zona):
+                        data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
+                        servico_pendentes.append(data)
+
+                    # Automovel
+                    for auto in Automovel.objects.filter(co__iexact=temp_SD.zona):
+                        data = {'marca': auto.marca, 'matricula': auto.matricula}
+                        automovel_pendentes.append(data)
+
+                    # Recursos humanos
+                    for rh in RecursoHumano.objects.filter(co__iexact=temp_SD.zona):
+                        data = {'numero_funcionario': rh.id_funcionario, 'nome_completo': rh.nome_completo}
+                        rh_pendentes.append(data)
+
+                else:
+                    temp_SD = get_object_or_404(Servico, id=servico_id)
+
+                    # Servico
+                    for s in Servico.objects.filter(zona__iexact=temp_SD.zona):
+                        if s.nome != temp_SD.nome:
+                            data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
+                            servico_pendentes.append(data)
+
+                    temp_sd = sd_filter.qs.filter(servico=temp_SD)
+
+                    # Automovel
+                    for auto in Automovel.objects.filter(co__iexact=temp_SD.zona):
+                        data = {'marca': auto.marca, 'matricula': auto.matricula}
+                        automovel_pendentes.append(data)
+
+                    for temp_auto in temp_sd:
+                        for x in automovel_pendentes:
+                            if x['matricula'] == temp_auto.automovel.matricula:
+                                automovel_pendentes.remove(x)
+
+                    #Recursos humanos
+                    for rh in RecursoHumano.objects.filter(co__iexact=temp_SD.zona):
+                        data = {'numero_funcionario': rh.id_funcionario, 'nome_completo': rh.nome_completo}
+                        rh_pendentes.append(data)
+
+                    for temp_rh in temp_sd:
+                        for rh in rh_pendentes:
+                            if rh['numero_funcionario'] == temp_rh.condutor.funcionario_id:
+                                rh_pendentes.remove(rh)
+
             context = {
                 "user": user,
+                'filter': sd_filter,
+                'servico_pendentes': servico_pendentes,
+                'automovel_pendentes': automovel_pendentes,
+                'rh_pendentes': rh_pendentes,
             }
 
         else:
@@ -39,7 +109,8 @@ def inicio(request):
                 if form.is_valid():
                     novo_sd = form.save(commit=False)
                     novo_sd.condutor = get_object_or_404(User, username=user.username)
-                    novo_sd.automovel = get_object_or_404(Automovel, matricula=form.cleaned_data['automovel_matricula'].upper())
+                    novo_sd.automovel = get_object_or_404(Automovel,
+                                                          matricula=form.cleaned_data['automovel_matricula'].upper())
                     novo_sd.servico = get_object_or_404(Servico, codigo=form.cleaned_data['codigo_do_servico'].upper())
                     novo_sd.estado_concluido = False
                     novo_sd.validar_servico = False
@@ -59,6 +130,22 @@ def inicio(request):
             }
 
     return render(request, template_name, context)
+
+
+def validar_servico_diario(request, sd_id):
+    user = request.user
+    servicos_diario = ServicoDiario.objects.get(pk=sd_id)
+    servicos_diario.validar_servico = True
+    servicos_diario.supervisor = get_object_or_404(User, username=user.username)
+    servicos_diario.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def validar_servico_completed(request):
+    # Todo.objects.filter(complete__exact=True).delete()
+    servicos_diarios = ServicoDiario.objects.filter(validar_servico__exact=False)
+    return redirect('core:inicio')
 
 
 def validate_codigo_servico(request):
@@ -103,18 +190,24 @@ def validate_automovel_matricula(request):
 
 
 def ajax_finalizar_servico(request, id):
-    km_final = request.GET.get('km_final', None)
+    temp_km_final = request.POST.get('km_final', False)
+    km_final = 0
+    if temp_km_final is not None and temp_km_final.isnumeric():
+        km_final = int(temp_km_final)
 
+    data = {'concluido': False, }
     if request.is_ajax():
-        if Servico.objects.filter(id__iexact=id).exists():
+
+        if ServicoDiario.objects.filter(id__iexact=id).exists():
             servico_diario = get_object_or_404(ServicoDiario, id=id)
 
-            if int(km_final) > servico_diario.km_inicial:
+            if km_final > servico_diario.km_inicial:
                 servico_diario.estado_concluido = True
                 servico_diario.finished_at = datetime.datetime.now()
                 servico_diario.km_final = km_final
                 servico_diario.automovel.km_actual = km_final
-                Automovel.objects.filter(id__iexact=servico_diario.automovel.id).update(km_actual=km_final)
+                Automovel.objects.filter(matricula__iexact=servico_diario.automovel.matricula).update(
+                    km_actual=km_final)
                 servico_diario.save()
                 data = {
                     'concluido': True,
@@ -128,14 +221,20 @@ def ajax_finalizar_servico(request, id):
         raise Http404
 
 
+@login_required
 def minhas_viagens(request):
     user = request.user
     template_name = 'minhas_viagens.html'
 
-    servicos_diarios = ServicoDiario.objects.filter(condutor__username__iexact=user.username,
-                                                    estado_concluido=True)
+    servicos_diarios_list = ServicoDiario.objects.filter(condutor__username__iexact=user.username,
+                                                         estado_concluido=True).order_by('-finished_at')
+
+    paginator = Paginator(servicos_diarios_list, 9)  # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    servicos_diarios = paginator.get_page(page)
+
     context = {
         'servicos_diarios': servicos_diarios,
     }
-
     return render(request, template_name, context)

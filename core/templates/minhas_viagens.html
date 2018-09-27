@@ -3,6 +3,11 @@
 {% block title %}Minhas Viagens{% endblock %}
 
 {% block content %}
+    <style>
+        .card .card-content {
+            padding: 10px;
+        }
+    </style>
 
     <div class="container">
         <div class="row">
@@ -68,6 +73,37 @@
             </div>
 
         </div>
+        <br>
+        {% if servicos_diarios %}
+            <ul class="pagination">
+                {% if servicos_diarios.has_previous %}
+                    <a class="waves-effect waves-light btn brown darken-1 b-radius" href="?page=1">Primeira</a>
+                    <li class="waves-effect"><a href="?page={{ servicos_diarios.previous_page_number }}"><i
+                            class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+
+                <li class="active red brown darken-1"><a href="#!">{{ servicos_diarios.number }}</a></li>
+
+                <li><a> de </a></li>
+
+                <li class="waves-effect">
+                    <a href="?page={{ servicos_diarios.paginator.num_pages }}">{{ servicos_diarios.paginator.num_pages }}</a>
+                </li>
+
+                {% if servicos_diarios.has_next %}
+                    <li class="waves-effect"><a href="?page={{ servicos_diarios.next_page_number }}"><i
+                            class="material-icons">chevron_right</i></a></li>
+                    <a class="waves-effect waves-light btn brown darken-1 b-radius"
+                       href="?page={{ servicos_diarios.paginator.num_pages }}">Última
+                    </a>
+                {% else %}
+                    <li class="disabled"><a><i class="material-icons">chevron_right</i></a></li>
+                {% endif %}
+
+            </ul>
+        {% endif %}
     </div>
 
 {% endblock %}

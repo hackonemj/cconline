@@ -1,10 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- Navbar goes here -->
+
+    <!-- Page Layout here -->
+    <div class="row">
+
+        <div class="col s12 m4 l3"> <!-- Note that "m4 l3" was added -->
+            <br>
+            <br>
+            <br>
+            <ul class="collection">
+                <li class="collection-item">{{ funcionarios }} Funcionário{{ funcionarios|pluralize:"s" }}</li>
+                <li class="collection-item">
+                    {{ total_func_activos }} Funcionário{{ total_func_activos|pluralize:"s" }} não activo{{ total_func_activos|pluralize:"s" }}
+                </li>
+                <li class="collection-item">{{ total_func_nao_activos }}
+                    Funcionário{{ total_func_nao_activos|pluralize:"s" }} não
+                    activo{{ total_func_nao_activos|pluralize:"s" }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="col s12 m8 l9">
+            <br>
+            <p class="center">RERCUSOS HUMANOS</p>
+            <table class="responsive-table striped">
+                <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th>Nif</th>
+                    <th>CO</th>
+                    <th>Nº</th>
+                    <th>Nome Completo</th>
+                    <th>Nome</th>
+                    <th>Obs</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for rh in recurso_humanos %}
+                    <tr>
+                        <td>{{ rh.activo }}</td>
+                        <td>{{ rh.nif|default_if_none:"Sem NIF" }}</td>
+                        <td>{{ rh.co }}</td>
+                        <td>{{ rh.id_funcionario }}</td>
+                        <td>{{ rh.nome_completo }}</td>
+                        <td>{{ rh.nome }}</td>
+                        <td>{{ rh.obs }}</td>
+                    </tr>
+                {% empty %}
+                    <p>No rh yet.</p>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <br>
+            <br>
+
+            <ul class="pagination">
+                {% if recurso_humanos.has_previous %}
+                    <a class="waves-effect waves-light btn brown darken-1 b-radius" href="?page=1">Primeira</a>
+                    <li class="waves-effect"><a href="?page={{ recurso_humanos.previous_page_number }}"><i
+                            class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+
+                <li class="active red brown darken-1"><a href="#!">{{ recurso_humanos.number }}</a></li>
+
+                <li><a> de </a></li>
+
+                <li class="waves-effect">
+                    <a href="?page={{ recurso_humanos.paginator.num_pages }}">{{ recurso_humanos.paginator.num_pages }}</a>
+                </li>
+
+                {% if recurso_humanos.has_next %}
+                    <li class="waves-effect"><a href="?page={{ recurso_humanos.next_page_number }}"><i
+                            class="material-icons">chevron_right</i></a></li>
+                    <a class="waves-effect waves-light btn brown darken-1 b-radius"
+                       href="?page={{ recurso_humanos.paginator.num_pages }}">Última
+                    </a>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}

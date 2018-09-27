@@ -8,10 +8,11 @@
     <style>
         #modal1 {
             outline: none !important;
-            min-height: 480px!important;
+            min-height: 480px !important;
         }
-        #modal1 .modal-content{
-            padding: 0 24px!important;
+
+        #modal1 .modal-content {
+            padding: 0 24px !important;
         }
 
         #finalizar-servico-modal {
@@ -30,11 +31,18 @@
         }
 
         #modal1 input {
-            height: 25px!important;
+            height: 25px !important;
         }
 
         #modal1 textarea {
             min-height: 20px !important;
+        }
+
+        @media only screen and (max-width: 992px) {
+            table.responsive-table th {
+                display: block;
+                text-align: initial;
+            }
         }
 
         @media only screen and (max-width: 500px) {
@@ -51,6 +59,7 @@
             #modal1 textarea {
                 min-height: 25px !important;
             }
+
         }
     </style>
     <div class="container">
@@ -62,7 +71,7 @@
                     <p class="center">SERVIÇO DIÁRIO</p>
 
                     {% if servico_diario %}
-                        <table>
+                        <table class="striped responsive-table">
                             <thead>
                             <tr>
                                 <th>Serviço</th>
@@ -82,7 +91,7 @@
                                     <td style="width: 142px">
                                         <a href="#finalizar-servico-modal" class="modal-trigger servico-diario"
                                            onclick="finalizarServico('{{ sd.id }}', '{% url 'core:ajax_finalizar_servico' id=sd.id %}')">
-                                            <span class="new badge red waves-effect waves-light btn"
+                                            <span class="new badge brown darken-1 waves-effect waves-light btn b-radius"
                                                   data-badge-caption="Concluir serviço">
                                             </span>
                                         </a>
@@ -112,7 +121,8 @@
                             {{ form }}
                         </div>
                         <div class="modal-footer">
-                            <button class="btn waves-effect waves-light red" type="submit" name="action">Iniciar serviço
+                            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit" name="action">
+                                Iniciar serviço
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -120,31 +130,29 @@
 
                 </div>
 
-
                 <!-- Modal Structure for finalize trip-->
                 <div id="finalizar-servico-modal" class="modal modal-fixed-footer">
-                    <form method="Post" class="finalizar-servico-form" action="{% url 'core:inicio' %}">
+                    <form method="POST" class="finalizar-servico-form" action="{% url 'core:inicio' %}">
                         {% csrf_token %}
                         <div class="modal-content">
                             <p class="center">CONCLUIR SERVIÇO</p>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <label for="id_km_final">Kilometros finais:</label>
+                                    <label for="km_final">Kilometros finais:</label>
                                     <input name="km_final" min="0" max="9223372036854775807" required=""
-                                           id="id_km_final" type="number">
+                                           id="km_final_input" type="number">
                                     <span class="helper-text" data-error="wrong" data-success="right">*O serviço não pode ser concluído com valor inferior a kilometragem inicial</span>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn waves-effect waves-light red" type="submit" name="action">Finalizar
+                            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit" name="action">Finalizar
                                 serviço
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
                     </form>
                 </div>
-
 
             </div>
 
@@ -159,9 +167,9 @@
                     class="material-icons">add</i>
             </a>
         {% else %}
-            <a class="btn-floating btn-large waves-effect waves-light red modal-trigger tooltipped"
+            <a class="btn-floating btn-large waves-effect waves-light brown darken-1 modal-trigger tooltipped"
                href="#modal1"
-               data-position="left" data-tooltip="Iniciar novo serviço"><i
+               data-position="left" data-tooltip="Iniciar novo serviço diário"><i
                     class="material-icons">add</i>
             </a>
         {% endif %}

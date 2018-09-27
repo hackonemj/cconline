@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'recurso_humano',
     # Third-party apps
     'import_export',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -80,10 +81,21 @@ WSGI_APPLICATION = 'cconline.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cconline_prod',
+        'USER': 'cconline',
+        'PASSWORD': 'Mjunior18',
+        'HOST': '104.248.55.83',
+        'PORT': '5432',
     }
 }
 

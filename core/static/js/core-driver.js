@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('.modal').modal();
-    $('.tooltipped').tooltip();
     $('.fixed-action-btn').floatingActionButton();
     $('#id_obs').addClass('materialize-textarea');
 
@@ -61,22 +60,24 @@ $(document).ready(function () {
 function finalizarServico(id, url) {
     // Submit post on submit
     $('.finalizar-servico-form').on('click', function (event) {
-        var km_final = $('#id_km_final').val();
-        //event.preventDefault();
+        var km_final = $('#km_final_input').val();
+        event.preventDefault();
         $.ajax({
-            type: "Post",
+            type: "POST",
             url: url,
+            headers: { "X-CSRFToken": $.cookie("csrftoken") },
             data: {
                 'id': id,
-                'km_final': km_final
+                'km_final': km_final,
             },
             dataType: 'json',
             success: function (data) {
-
+                if(data.concluido){
+                   window.location.href = '/'
+                }
             },
         });
         //$('#finalizar-servico-modal').modal('close');
     });
 }
-
 
