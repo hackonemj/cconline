@@ -24,7 +24,7 @@ SECRET_KEY = 'h5w(lxk)35(tw@=5^l99)w*kej%oj*b+mp9ye^&4+^_le0lzq('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cconline.pt','www.cconline.pt']
+ALLOWED_HOSTS = ['cconline.pt', 'www.cconline.pt', '127.0.0.1']
 
 # Application definition
 
@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'cconline_prod',
         'USER': 'cconline',
         'PASSWORD': 'Mjunior18',
-        'HOST': 'localhost',
+        'HOST': '104.248.55.83',
         'PORT': '',
     }
 }

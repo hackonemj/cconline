@@ -10,7 +10,7 @@ from core.filters import ServicoDiarioFilter
 from recurso_humano.models import RecursoHumano
 from servico.models import Servico
 from servico_diario.forms import CondutorServicoDiarioForm
-from servico_diario.models import ServicoDiario
+from servico_diario.models import ServicoDiario, CO
 
 from django.core.paginator import Paginator
 
@@ -23,10 +23,10 @@ def inicio(request):
 
     else:
         if user.is_staff:
-            servico_id = None
-            if 'servico' in request.GET:
-                temp_sd = request.GET.get('servico', False)
-                servico_id = temp_sd
+            servico_zona = None
+            if 'co' in request.GET:
+                temp_sd = request.GET.get('co', False)
+                servico_zona = temp_sd
 
             rh_pendentes = []
             servico_pendentes = []
@@ -36,55 +36,58 @@ def inicio(request):
             template_name = template_staff
             sd_filter = ServicoDiarioFilter(request.GET, queryset=ServicoDiario.objects.filter(validar_servico=False))
 
-            if ServicoDiario.objects.all() and servico_id:
-                if not sd_filter.qs.all():
-                    temp_SD = get_object_or_404(Servico, id=servico_id)
-
+            if ServicoDiario.objects.all() and servico_zona:
+                if not sd_filter.qs:
+                    temp_co = get_object_or_404(CO, id=servico_zona)
+                    print(Servico.objects.filter(zona=temp_co.nome))
                     # Servico
-                    for s in Servico.objects.filter(zona__iexact=temp_SD.zona):
+                    for s in Servico.objects.filter(zona=temp_co.nome):
                         data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
                         servico_pendentes.append(data)
 
                     # Automovel
-                    for auto in Automovel.objects.filter(co__iexact=temp_SD.zona):
+                    for auto in Automovel.objects.filter(co=temp_co.nome):
                         data = {'marca': auto.marca, 'matricula': auto.matricula}
                         automovel_pendentes.append(data)
 
                     # Recursos humanos
-                    for rh in RecursoHumano.objects.filter(co__iexact=temp_SD.zona):
+                    for rh in RecursoHumano.objects.filter(co=temp_co.nome):
                         data = {'numero_funcionario': rh.id_funcionario, 'nome_completo': rh.nome_completo}
                         rh_pendentes.append(data)
 
                 else:
-                    temp_SD = get_object_or_404(Servico, id=servico_id)
-
+                    temp_co = get_object_or_404(CO, id=servico_zona)
                     # Servico
-                    for s in Servico.objects.filter(zona__iexact=temp_SD.zona):
-                        if s.nome != temp_SD.nome:
-                            data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
-                            servico_pendentes.append(data)
+                    for s in Servico.objects.filter(zona__iexact=temp_co.nome):
+                        data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
+                        servico_pendentes.append(data)
 
-                    temp_sd = sd_filter.qs.filter(servico=temp_SD)
+                    print(servico_pendentes)
+
+                    temp_sd = sd_filter.qs.filter(co=servico_zona)
 
                     # Automovel
-                    for auto in Automovel.objects.filter(co__iexact=temp_SD.zona):
+                    for auto in Automovel.objects.filter(co__iexact=temp_co.nome):
                         data = {'marca': auto.marca, 'matricula': auto.matricula}
                         automovel_pendentes.append(data)
 
-                    for temp_auto in temp_sd:
-                        for x in automovel_pendentes:
-                            if x['matricula'] == temp_auto.automovel.matricula:
-                                automovel_pendentes.remove(x)
-
-                    #Recursos humanos
-                    for rh in RecursoHumano.objects.filter(co__iexact=temp_SD.zona):
+                    # Recursos humanos
+                    for rh in RecursoHumano.objects.filter(co__iexact=temp_co.nome):
                         data = {'numero_funcionario': rh.id_funcionario, 'nome_completo': rh.nome_completo}
                         rh_pendentes.append(data)
 
-                    for temp_rh in temp_sd:
+                    for temp_sd in temp_sd:
                         for rh in rh_pendentes:
-                            if rh['numero_funcionario'] == temp_rh.condutor.funcionario_id:
+                            if rh['numero_funcionario'] == temp_sd.condutor.funcionario_id:
                                 rh_pendentes.remove(rh)
+
+                        for auto in automovel_pendentes:
+                            if auto['matricula'] == temp_sd.automovel.matricula:
+                                automovel_pendentes.remove(auto)
+
+                        for s in servico_pendentes:
+                            if s['zona'] == temp_sd.servico.zona and s['nome'] == temp_sd.servico.nome:
+                                servico_pendentes.remove(s)
 
             context = {
                 "user": user,
@@ -112,6 +115,12 @@ def inicio(request):
                     novo_sd.automovel = get_object_or_404(Automovel,
                                                           matricula=form.cleaned_data['automovel_matricula'].upper())
                     novo_sd.servico = get_object_or_404(Servico, codigo=form.cleaned_data['codigo_do_servico'].upper())
+
+                    if CO.objects.filter(nome=novo_sd.servico.zona).exists():
+                        novo_sd.co = CO.objects.get(nome__iexact=novo_sd.servico.zona)
+                    else:
+                        novo_sd.co = CO.objects.create(nome=novo_sd.servico.zona, slug=novo_sd.servico.zona)
+
                     novo_sd.estado_concluido = False
                     novo_sd.validar_servico = False
                     novo_sd.supervisor = None
