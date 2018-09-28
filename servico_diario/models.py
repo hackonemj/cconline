@@ -4,11 +4,18 @@ from automovel.models import Automovel
 from conta.models import User
 from servico.models import Servico
 
+class CO(models.Model):
+    nome = models.CharField(max_length=5, verbose_name='CO')
+    slug = models.SlugField(unique=True, verbose_name='Slug')
+
+    def __str__(self):
+        return self.nome
 
 class ServicoDiario(models.Model):
     automovel = models.ForeignKey(Automovel, on_delete=models.CASCADE, related_name='Automovel')
     condutor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='condutor')
     servico = models.ForeignKey(Servico, on_delete=models.CASCADE, related_name='Servico')
+    co = models.ForeignKey(CO, on_delete=models.CASCADE, related_name='co')
     km_inicial = models.BigIntegerField('Kilometros iniciais')
     km_final = models.BigIntegerField('Kilometros finais', blank=True, null=True)
     obs = models.TextField('Observção', blank=True, null=True)
