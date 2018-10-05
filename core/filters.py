@@ -1,7 +1,6 @@
 import django_filters
 from django.forms import DateInput
 
-from servico.models import Servico
 from servico_diario.models import ServicoDiario, CO
 
 
@@ -9,7 +8,7 @@ class ServicoDiarioFilter(django_filters.FilterSet):
     co = django_filters.ModelChoiceFilter(queryset=CO.objects.all(), required=True)
 
     created_at = django_filters.DateFilter(
-        widget=DateInput(attrs={'class': 'datepicker', 'placeholder': 'Data'}, format='%d/%m/%Y'), required=True
+        widget=DateInput(attrs={'type': 'date', 'placeholder': 'Data'}, format='%d/%m/%Y'), required=True
     )
 
     class Meta:

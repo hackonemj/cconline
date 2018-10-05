@@ -7,84 +7,108 @@
     <title>{% block title %}{% endblock %}</title>
 
     <!-- CSS  -->
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static "/css/materialize.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="{% static "/css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    {% block css_cdn %}{% endblock %}
 </head>
 <body>
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
     {% if user.is_staff %}
-        <li><a>{{ user.username |capfirst }}</a></li>
+        <li><a><i class="material-icons">account_circle</i>{{ user.username|capfirst }}</a></li>
     {% endif %}
-    <li><a href="#">Ver perfil</a></li>
-    <li><a href="#">Editar perfil</a></li>
+    <li><a href="{% url 'conta:perfil' %}"><i class="material-icons">assignment_ind</i>Ver perfil</a></li>
     <li class="divider"></li>
     {% if user.is_superuser %}
-        <li><a href="{% url 'conta:criar-conta' %}">Adicionar membros</a></li>
+        <li>
+            <a href="{% url 'conta:criar-conta' %}">
+                <i class="material-icons">person_add</i>Adicionar utilizador
+            </a>
+        </li>
     {% endif %}
-    <li><a href="{% url 'conta:sair' %}">Terminar sessão</a></li>
+    <li>
+        <a href="{% url 'conta:sair' %}">
+            <i class="material-icons">power_settings_new</i>Terminar sessão
+        </a>
+    </li>
 </ul>
-<div class="navbar-fixed">
-    <nav class="white text-accent-1" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" href="{% url 'core:inicio' %}" class="brand-logo"><img
-                    src="{% static 'img/logo/delivery-truck.png' %}"></a>
-            {% if user.is_authenticated %}
-                {% if not user.is_staff %}
-                    <ul class="person-name hide-on-med-and-down ">
-                        <li><a><i class="material-icons">person_outline</i> {{ user.username |capfirst }}</a>
+{% if user.is_authenticated %}
+    <div class="navbar-fixed">
+        <nav class="white text-accent-1" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="{% url 'core:inicio' %}" class="brand-logo"><img
+                        src="{% static 'img/logo/delivery-truck.png' %}"></a>
+                {% if user.is_authenticated %}
+                    {% if not user.is_staff %}
+                        <ul class="person-name hide-on-med-and-down ">
+                            <li><a><i class="material-icons">person_outline</i> {{ user.username |capfirst }}</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                {% endif %}
+                <ul class="right hide-on-med-and-down">
+                    {% if user.is_authenticated %}
+                        {% if not user.is_staff %}
+                            <li><a href="{% url 'core:inicio' %}">Criar serviço</a></li>
+                            <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
+                        {% else %}
+                            <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
+                            <li><a href="{% url 'automovel:lista' %}">Automóvel</a></li>
+                            <li><a href="{% url 'servico:lista' %}">Serviço</a></li>
+                            <li><a href="{% url 'recurso-humano:lista' %}">Recurso humano</a></li>
+                        {% endif %}
+                        <!-- Dropdown Trigger -->
+                        <li class="dropdown-trigger-li">
+                            <a class="dropdown-trigger" href="#!" data-target="dropdown1">
+                                <i class="material-icons">settings</i>
+                            </a>
                         </li>
-                    </ul>
-                {% endif %}
-            {% endif %}
-            <ul class="right hide-on-med-and-down">
-                {% if user.is_authenticated %}
-                    {% if not user.is_staff %}
-                        <li><a href="{% url 'core:inicio' %}">Criar serviço</a></li>
-                        <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
-                    {% else %}
-                        <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
-                        <li><a href="{% url 'automovel:lista' %}">Automóvel</a></li>
-                        <li><a href="{% url 'servico:lista' %}">Serviço</a></li>
-                        <li><a href="{% url 'recurso-humano:lista' %}">Recurso humano</a></li>
-                    {% endif %}
-                    <!-- Dropdown Trigger -->
-                    <li class="dropdown-trigger-li">
-                        <a class="dropdown-trigger" href="#!" data-target="dropdown1">
-                            <i class="material-icons">settings</i>
-                            {% comment %}<img src="{% static 'img/adult-afro.jpg' %}" alt="" class="circle">{% endcomment %}
-                        </a>
-                    </li>
 
-                {% endif %}
-            </ul>
-
-            <ul id="nav-mobile" class="sidenav">
-                <li><a>{{ user.username|capfirst }}</a></li>
-                {% if user.is_authenticated %}
-                    {% if not user.is_staff %}
-                        <li><a href="{% url 'core:minhas-viagens' %}">Minhas viagens</a></li>
-                    {% else %}
-                        <li><a href="{% url 'core:inicio' %}">Inicio</a></li>
-                        <li><a href="{% url 'automovel:lista' %}">Automóvel</a></li>
-                        <li><a href="{% url 'servico:lista' %}">Serviço</a></li>
-                        <li><a href="{% url 'recurso-humano:lista' %}">Recurso humano</a></li>
                     {% endif %}
+                </ul>
 
-                    <li><a href="#">Ver perfil</a></li>
-                    <li><a href="#">Editar perfil</a></li>
-                    <li class="divider"></li>
-                    {% if user.is_superuser %}
-                        <li><a href="{% url 'conta:criar-conta' %}">Adicionar membros</a></li>
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a><i class="material-icons">account_circle</i>{{ user.username|capfirst }}</a></li>
+                    {% if user.is_authenticated %}
+                        {% if not user.is_staff %}
+                            <li><a href="{% url 'core:minhas-viagens' %}">
+                                <i class="material-icons">local_shipping</i>Minhas viagens</a>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'core:inicio' %}"><i class="material-icons">home</i>Inicio</a></li>
+                            <li><a href="{% url 'automovel:lista' %}">
+                                <i class="material-icons">drive_eta</i>Automóvel</a>
+                            </li>
+                            <li><a href="{% url 'servico:lista' %}"><i class="material-icons">list</i>Serviço</a></li>
+                            <li><a href="{% url 'recurso-humano:lista' %}"><i class="material-icons">group</i> Recurso
+                                humano</a></li>
+                        {% endif %}
+
+                        <li><a href="{% url 'conta:perfil' %}"><i class="material-icons">assignment_ind</i>Ver
+                            perfil</a>
+                        </li>
+                        <li class="divider"></li>
+                        {% if user.is_admin %}
+                            <li>
+                                <a href="{% url 'conta:criar-conta' %}">
+                                    <i class="material-icons">person_add</i>Adicionar utilizador
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url 'conta:sair' %}">
+                                <i class="material-icons">power_settings_new</i>Terminar sessão
+                            </a>
+                        </li>
                     {% endif %}
-                    <li><a href="{% url 'conta:sair' %}">Terminar sessão</a></li>
-                {% endif %}
-            </ul>
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-        </div>
-    </nav>
-</div>
+                </ul>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+    </div>
+{% endif %}
 <div>
     {% block content %}
 
@@ -96,7 +120,9 @@
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="{% static "/js/materialize.js" %}"></script>
 <script src="{% static "/js/init.js" %}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="{% block js %}{% endblock %}">window.CSRF_TOKEN = "{{ csrf_token }}";</script>
+{% block js %}{% endblock %}
+{% block js_cdn %}{% endblock %}
 </body>
 </html>

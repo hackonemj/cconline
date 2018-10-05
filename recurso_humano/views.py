@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 
+from core.decorators import user_supervisor_or_admin_required
 from .models import RecursoHumano
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
 
-@login_required
+@user_supervisor_or_admin_required
 def recurso_humano(request):
     recurso_humano_list = RecursoHumano.objects.all().order_by('co')
     n_total_funcionarios = RecursoHumano.objects.all().count()

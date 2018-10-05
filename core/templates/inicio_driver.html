@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Criar serviço{% endblock %}
-{% block js %}
-    {% static "/js/core-driver.js" %}
-{% endblock %}
+
 {% block content %}
     <style>
         #modal1 {
@@ -68,7 +66,7 @@
             <!--   Icon Section   -->
             <div class="row">
                 <div>
-                    <p class="center">SERVIÇO DIÁRIO</p>
+                    <p class="center"><b>SERVIÇO DIÁRIO</b></p>
 
                     {% if servico_diario %}
                         <table class="striped responsive-table">
@@ -89,10 +87,12 @@
                                     <td>{{ sd.km_inicial }} km</td>
                                     <td>{{ sd.km_final }} km</td>
                                     <td style="width: 142px">
-                                        <a href="#finalizar-servico-modal" class="modal-trigger servico-diario"
+                                        <a href="#finalizar-servico-modal"
+                                           class="modal-trigger servico-diario"
                                            onclick="finalizarServico('{{ sd.id }}', '{% url 'core:ajax_finalizar_servico' id=sd.id %}')">
-                                            <span class="new badge brown darken-1 waves-effect waves-light btn b-radius"
-                                                  data-badge-caption="Concluir serviço">
+                                            <span class="new badge brown darken-1 waves-effect waves-light btn b-radius tooltipped"
+                                                  data-badge-caption="Concluir serviço" data-position="bottom"
+                                                  data-tooltip="Concluir serviço">
                                             </span>
                                         </a>
                                     </td>
@@ -121,7 +121,8 @@
                             {{ form }}
                         </div>
                         <div class="modal-footer">
-                            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit" name="action">
+                            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit"
+                                    name="action">
                                 Iniciar serviço
                                 <i class="material-icons right">send</i>
                             </button>
@@ -146,7 +147,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit" name="action">Finalizar
+                            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit"
+                                    name="action">Finalizar
                                 serviço
                                 <i class="material-icons right">send</i>
                             </button>
@@ -162,8 +164,8 @@
     <div class="fixed-action-btn">
         <!-- Modal Trigger -->
         {% if has_active_SD %}
-            <a class="btn-floating btn-large waves-effect waves-light grey disabled-btn-sd"
-               data-position="left"><i
+            <a class="btn-floating btn-large waves-effect waves-light grey disabled-btn-sd tooltipped"
+               data-position="left" data-tooltip="Não pode iniciar novo serviço diário, termine o anterior"><i
                     class="material-icons">add</i>
             </a>
         {% else %}
@@ -177,3 +179,6 @@
 
 {% endblock %}
 
+{% block js %}
+    <script src="{% static "/js/core-driver.js" %}">window.CSRF_TOKEN = "{{ csrf_token }}";</script>
+{% endblock %}

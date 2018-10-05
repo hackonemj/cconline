@@ -6,7 +6,7 @@
         .tabs .indicator {
             position: absolute;
             bottom: 0;
-            height: 2px;
+            height: 3px;
             background-color: #bdbdbd;
             will-change: left, right;
         }
@@ -67,9 +67,36 @@
             outline: none;
             color: initial;
         }
-        .collection-title{
-            font-size: 1rem!important;
+
+        .collection-title {
+            font-size: 1rem !important;
             font-weight: bold;
+        }
+
+        #tabs-swipe-demo li:first-child {
+            margin-left: 10px !important;
+        }
+
+        #criar-sd {
+            outline: none !important;
+            min-height: 490px !important;
+            min-width: 50%;
+        }
+
+        #criar-sd input {
+            height: 32px !important;
+        }
+
+        #criar-sd textarea {
+            min-height: 20px !important;
+        }
+
+        #criar-sd .row {
+            margin-bottom: 0px;
+        }
+
+        #criar-sd .modal-content {
+            padding-top: 10px;
         }
     </style>
     <div class="row">
@@ -78,10 +105,10 @@
                 <form method="GET" class="">
                     <div class="row">
                         {% for field in filter.form %}
-                            {% if field.label == "Servico" %}
-                                <div class="input-field col s4">{{ field }}</div>
+                            {% if field.label == "Co" %}
+                                <div class="input-field col s3">{{ field }}</div>
                             {% else %}
-                                <div class="input-field col s2">{{ field }}</div>
+                                <div class="input-field col s4">{{ field }}</div>
                             {% endif %}
                         {% endfor %}
                         <div class="input-field col s2">
@@ -121,9 +148,9 @@
                                     <td>{{ sd.km_inicial }}</td>
                                     <td>{{ sd.km_final }}</td>
                                     <td>
-                                        <a class="btn-floating btn-small waves-effect waves-light green darken-3 tooltipped"
+                                        <a class="btn-floating btn-small waves-effect waves-light indigo darken-1 tooltipped"
                                            href="{% url 'core:validar_servico_diario' sd.id %}?next={{ request.path|urlencode }}"
-                                           data-position="left" data-tooltip="Validar serviço">
+                                           data-position="bottom" data-tooltip="Validar serviço">
                                             <i class="material-icons">add</i>
                                         </a>
                                     </td>
@@ -174,13 +201,86 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
+
+        <!-- Edit Modal -->
+        <div id="criar-sd" class="modal modal-fixed-footer">
+            <form class="col s12" id="SD-form" method="Post">
+                <div class="modal-content">
+                    <p class="center" id="modal_title">CRIAR SERVIÇO DIÁRIO</p>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="id_funcionario" type="number" class="validate" required="true">
+                            <label for="id_funcionario">Nº Funcionário</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="func_nome" disabled type="text" class="validate" value="--------">
+                            <label for="func_nome">Funcionário Nome</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="auto_matricula" type="text" class="validate" required="true">
+                            <label for="auto_matricula">Matricula</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="auto_modelo" disabled type="text" class="validate" value="--------">
+                            <label for="auto_modelo">Modelo</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="sd_codigo_servico" type="text" class="validate" required="true">
+                            <label for="sd_codigo_servico">Código do Serviço</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="sd_descricao_servico" disabled type="text" class="validate"
+                                   value="--------">
+                            <label for="sd_descricao_servico">Descrição do Serviço</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="sd_km_inicial" type="number" class="validate" required="true" value="0"
+                                   min="0" max="9223372036854775807">
+                            <label for="sd_km_inicial">Km Inicial</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="sd_km_final" type="number" class="validate" required="true" min="0"
+                                   max="9223372036854775807">
+                            <label for="sd_km_final">Km Final</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="sd_obs" class="materialize-textarea"></textarea>
+                            <label for="sd_obs">OBS</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="center">
+                        <button type="submit"
+                                class="btn waves-effect waves-light brown darken-1 b-radius criar-sd-btn">
+                            Submeter<i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light brown darken-1 modal-trigger tooltipped"
+               href="#criar-sd"
+               data-position="left" data-tooltip="Criar novo serviço diário"><i
+                    class="material-icons">add</i>
+            </a>
+        </div>
     </div>
 {% endblock %}
 {% block js %}
-    {% static "/js/core-staff.js" %}
+    <script src=" {% static "/js/core-staff.js" %}">window.CSRF_TOKEN = "{{ csrf_token }}";</script>
 {% endblock %}

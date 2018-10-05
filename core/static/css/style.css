@@ -76,13 +76,16 @@ nav .person-name {
     max-width: 200px;
     margin: 0 auto;
 }
-nav .person-name a{
+
+nav .person-name a {
     display: flex;
 }
-nav .person-name a:hover{
+
+nav .person-name a:hover {
     cursor: initial;
     background-color: transparent;
 }
+
 nav .person-name i {
     /*background: #6d4c41;
     padding: 0 21px;*/
@@ -110,12 +113,12 @@ nav ul .dropdown-trigger-li img:hover {
     outline-style: none;
 }*/
 
-.dropdown-content {
-    min-width: 160px !important;
+nav .dropdown-content {
+    min-width: 215px !important;
     top: 100% !important;
 }
 
-.dropdown-content li a {
+nav .dropdown-content li a {
     font-size: 14px !important;
     color: #444444 !important;
     display: block !important;
@@ -123,14 +126,28 @@ nav ul .dropdown-trigger-li img:hover {
     padding: 10px !important;
 }
 
-.dropdown-content li {
+nav .dropdown-content li {
     min-height: auto !important;
 }
 
-body .b-radius{
-    border-radius: 20px!important;
+body .b-radius {
+    border-radius: 20px !important;
 }
 
 td, th {
     padding: 5px;
+}
+
+#toast-container {
+    max-width: 350px !important;
+    position: absolute !important;
+    margin: auto !important;
+    top: 12% !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+}
+
+.toast-element {
+    background-color: #81c784;
 }

@@ -9,5 +9,7 @@ urlpatterns = [
     path('validar_servico_diario/<sd_id>/', views.validar_servico_diario, name='validar_servico_diario'),
     path('ajax/validate-codigo-servico/', views.validate_codigo_servico, name='validate_codigo_servico'),
     path('ajax/validate-automovel-matricula/', views.validate_automovel_matricula, name='validate_automovel_matricula'),
+    path('ajax/validate-funcionario/', views.validate_funcionario, name='validate_funcionario'),
     path('ajax/finalizar-servico/<id>/', views.ajax_finalizar_servico, name='ajax_finalizar_servico'),
+    path('ajax/criar-sd/', views.ajax_criar_sd, name='ajax_criar_sd'),
 ]

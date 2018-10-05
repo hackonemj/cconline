@@ -65,19 +65,16 @@ function finalizarServico(id, url) {
         $.ajax({
             type: "POST",
             url: url,
-            headers: { "X-CSRFToken": $.cookie("csrftoken") },
+            headers: {"X-CSRFToken": $.cookie("csrftoken")},
             data: {
                 'id': id,
                 'km_final': km_final,
             },
             dataType: 'json',
             success: function (data) {
-                if(data.concluido){
-                   window.location.href = '/'
-                }
+                location.reload();
             },
         });
-        //$('#finalizar-servico-modal').modal('close');
     });
 }
 

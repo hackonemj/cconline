@@ -3,10 +3,13 @@
 {% block content %}
     <style>
         .login-div {
-            margin: 50px auto;
             width: 30%;
             background-color: #3F51B5;
             padding: 20px;
+            position: absolute;
+            top: 14%;
+            left: 16% !important;
+            right: 16% !important;
         }
 
         .collection .collection-item.avatar {
@@ -26,16 +29,30 @@
             color: #ff7166 !important;
         }
 
-        @media only screen and (max-width: 800px) {
+        @media only screen and (max-width: 1000px) {
             .login-div {
-                margin: 50px auto;
-                width: 50%;
-                background-color: #3F51B5;
-                padding: 20px;
+                width: 40%;
             }
-                @media only screen and (max-width: 500px) {
+
+            @media only screen and (max-width: 800px) {
                 .login-div {
-                    width: 80%;
+                    width: 50%;
+                    background-color: #3F51B5;
+                    padding: 20px;
+                }
+
+                @media only screen and (max-width: 590px) {
+                    .login-div {
+                        width: 70%;
+                        left: 5% !important;
+                        right: 5% !important;
+                    }
+
+                    @media only screen and (max-width: 400px) {
+                        .login-div {
+                            width: 90%;
+                        }
+                    }
                 }
             }
         }
@@ -63,7 +80,7 @@
                 {% endfor %}
 
             </ul>
-            <button class="btn waves-effect waves-light red b-radius" type="submit" name="action">Enviar
+            <button class="btn waves-effect waves-light brown darken-1 b-radius" type="submit" name="action">Enviar
                 <i class="material-icons right">send</i>
             </button>
 

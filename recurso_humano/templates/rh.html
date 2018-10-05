@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Recursos Humanos{% endblock %}
+{% block title %}Recurso Humano{% endblock %}
 {% block content %}
 
     <!-- Navbar goes here -->
@@ -14,7 +14,7 @@
             <ul class="collection">
                 <li class="collection-item">{{ funcionarios }} Funcionário{{ funcionarios|pluralize:"s" }}</li>
                 <li class="collection-item">
-                    {{ total_func_activos }} Funcionário{{ total_func_activos|pluralize:"s" }} não activo{{ total_func_activos|pluralize:"s" }}
+                    {{ total_func_activos }} Funcionário{{ total_func_activos|pluralize:"s" }} activo{{ total_func_activos|pluralize:"s" }}
                 </li>
                 <li class="collection-item">{{ total_func_nao_activos }}
                     Funcionário{{ total_func_nao_activos|pluralize:"s" }} não
@@ -25,7 +25,7 @@
 
         <div class="col s12 m8 l9">
             <br>
-            <p class="center">RERCUSOS HUMANOS</p>
+            <p class="center"><b>RECURSO HUMANO</b></p>
             <table class="responsive-table striped">
                 <thead>
                 <tr>

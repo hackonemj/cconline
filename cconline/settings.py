@@ -24,7 +24,7 @@ SECRET_KEY = 'h5w(lxk)35(tw@=5^l99)w*kej%oj*b+mp9ye^&4+^_le0lzq('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cconline.pt', 'www.cconline.pt', '127.0.0.1']
+ALLOWED_HOSTS = ['cconline.pt', 'www.cconline.pt']
 
 # Application definition
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'import_export',
     'django_filters',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,8 @@ WSGI_APPLICATION = 'cconline.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+#
+
 
 # DATABASES = {
 #     'default': {
@@ -95,7 +98,7 @@ DATABASES = {
         'USER': 'cconline',
         'PASSWORD': 'Mjunior18',
         'HOST': '104.248.55.83',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 

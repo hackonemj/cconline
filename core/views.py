@@ -1,11 +1,11 @@
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 
 from automovel.models import Automovel
 from conta.models import User
+from core.decorators import logged_in_required
 from core.filters import ServicoDiarioFilter
 from recurso_humano.models import RecursoHumano
 from servico.models import Servico
@@ -39,7 +39,6 @@ def inicio(request):
             if ServicoDiario.objects.all() and servico_zona:
                 if not sd_filter.qs:
                     temp_co = get_object_or_404(CO, id=servico_zona)
-                    print(Servico.objects.filter(zona=temp_co.nome))
                     # Servico
                     for s in Servico.objects.filter(zona=temp_co.nome):
                         data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
@@ -61,8 +60,6 @@ def inicio(request):
                     for s in Servico.objects.filter(zona__iexact=temp_co.nome):
                         data = {'zona': s.zona, 'nome': s.nome, 'cliente': s.cliente}
                         servico_pendentes.append(data)
-
-                    print(servico_pendentes)
 
                     temp_sd = sd_filter.qs.filter(co=servico_zona)
 
@@ -141,6 +138,7 @@ def inicio(request):
     return render(request, template_name, context)
 
 
+@logged_in_required
 def validar_servico_diario(request, sd_id):
     user = request.user
     servicos_diario = ServicoDiario.objects.get(pk=sd_id)
@@ -151,12 +149,13 @@ def validar_servico_diario(request, sd_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@logged_in_required
 def validar_servico_completed(request):
-    # Todo.objects.filter(complete__exact=True).delete()
     servicos_diarios = ServicoDiario.objects.filter(validar_servico__exact=False)
     return redirect('core:inicio')
 
 
+@logged_in_required
 def validate_codigo_servico(request):
     codigo_do_servico = request.GET.get('codigo_do_servico', None)
 
@@ -175,6 +174,7 @@ def validate_codigo_servico(request):
     return JsonResponse(data)
 
 
+@logged_in_required
 def validate_automovel_matricula(request):
     automovel_matricula = request.GET.get('automovel_matricula', None)
     if Automovel.objects.filter(matricula__iexact=automovel_matricula.upper()).exists():
@@ -198,6 +198,7 @@ def validate_automovel_matricula(request):
     return JsonResponse(data)
 
 
+@logged_in_required
 def ajax_finalizar_servico(request, id):
     temp_km_final = request.POST.get('km_final', False)
     km_final = 0
@@ -230,7 +231,7 @@ def ajax_finalizar_servico(request, id):
         raise Http404
 
 
-@login_required
+@logged_in_required
 def minhas_viagens(request):
     user = request.user
     template_name = 'minhas_viagens.html'
@@ -247,3 +248,63 @@ def minhas_viagens(request):
         'servicos_diarios': servicos_diarios,
     }
     return render(request, template_name, context)
+
+
+# validar funcionário
+@logged_in_required
+def validate_funcionario(request):
+    id_funcionario = request.GET.get('id_funcionario', None)
+
+    if RecursoHumano.objects.filter(id_funcionario__exact=id_funcionario).exists() and User.objects.filter(
+            funcionario_id__exact=id_funcionario).exists():
+
+        funcionario = User.objects.get(funcionario_id__exact=id_funcionario)
+        data = {
+            'encontrou': True,
+            'nome': funcionario.get_full_name(),
+        }
+    else:
+        data = {
+            'encontrou': False,
+        }
+
+    return JsonResponse(data)
+
+
+def ajax_criar_sd(request):
+    id_funcionario = request.POST.get('id_funcionario', None)
+    codigo_servico = request.POST.get('codigo_servico', None)
+    auto_matricula = request.POST.get('auto_matricula', None)
+    km_inicial = request.POST.get('km_inicial', None)
+    km_final = request.POST.get('km_final', None)
+    obs = request.POST.get('obs', None)
+
+    # print("{} {} {} {} {} {}".format(temp_id, codigo_servico, auto_matricula, km_final, km_inicial, obs))
+
+    data = {'concluido': False, }
+
+    if request.method == "POST" and request.is_ajax:
+        condutor = User.objects.get(funcionario_id__exact=id_funcionario)
+        automovel = Automovel.objects.get(matricula__iexact=auto_matricula)
+        servico = Servico.objects.get(codigo__iexact=codigo_servico)
+
+        novo_sd = ServicoDiario(automovel=automovel, condutor=condutor, servico=servico, km_inicial=km_inicial,
+                                km_final=km_final)
+
+        if CO.objects.filter(nome=novo_sd.servico.zona).exists():
+            novo_sd.co = CO.objects.get(nome__iexact=novo_sd.servico.zona)
+        else:
+            novo_sd.co = CO.objects.create(nome=novo_sd.servico.zona, slug=novo_sd.servico.zona)
+
+        novo_sd.automovel.km_actual = novo_sd.km_final
+        Automovel.objects.filter(matricula__iexact=novo_sd.automovel.matricula).update(km_actual=km_final)
+        novo_sd.estado_concluido = True
+        novo_sd.finished_at = datetime.datetime.now()
+        novo_sd.validar_servico = False
+        novo_sd.supervisor = None
+        novo_sd.obs = obs
+        novo_sd.save()
+
+        return JsonResponse(data)
+    else:
+        raise Http404

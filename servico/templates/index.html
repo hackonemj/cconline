@@ -1,0 +1,110 @@
+{% extends  'base.html' %}
+{% load static %}
+{% block css_cdn %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style-servico.css' %}"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="">
+        <br>
+        <br>
+        <!-- datatables -->
+        <table id="datatables" class="">
+            <thead>
+            <tr>
+                <th>Activo</th>
+                <th>codigo</th>
+                <th>Zona</th>
+                <th>Cliente</th>
+                <th>Nome</th>
+                <th>Valor Dia</th>
+                <th>Portagens</th>
+                <th>Banca</th>
+                <th>Fatura</th>
+                <th>Acção</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+
+            </tr>
+            </tfoot>
+        </table>
+
+        <div id="edit-or-create-servico" class="modal modal-fixed-footer">
+            <form role="form">
+                <div class="modal-content">
+                    <p class="center" id="modal_title"></p>
+
+                    <div class="form-group">
+                        <label for="activo">Activo</label>
+                        <input type="text" class="form-control" id="activo" name="activo"
+                               placeholder="Introduz o estado"
+                               required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="zona">Zona</label>
+                        <input type="text" class="form-control" id="zona" name="zona"
+                               placeholder="Introduz a zona" required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="codigo">Codigo</label>
+                        <input type="text" class="form-control" id="codigo" name="codigo"
+                               placeholder="Introduz o codigo" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" class="form-control" id="cliente" name="cliente"
+                               placeholder="Introduz o cliente" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" name="nome"
+                               placeholder="Introduz o nome" required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="valor_dia">Valor dia</label>
+                        <input type="number" class="form-control" id="nome" name="valor_dia"
+                               placeholder="Introduz o valor dia" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="portagens">Portagens</label>
+                        <input type="number" class="" id="portagens" name="portagens"
+                               placeholder="Introduz a portagens" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="banca">Banca</label>
+                        <input type="text" id="banca" name="banca"
+                               placeholder="Introduz a banca" >
+                    </div>
+                    <div class="form-group">
+                        <label for="fatura">Fatura</label>
+                        <input type="text" id="fatura" name="fatura"
+                               placeholder="Introduz a fatura">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="center">
+                        <button type="submit" class="modal-close btn waves-effect waves-light brown darken-1 b-radius">
+                            Submeter<i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_cdn %}
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.material.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="{% static 'js/index.js' %}">window.CSRF_TOKEN = "{{ csrf_token }}";</script>
+{% endblock %}

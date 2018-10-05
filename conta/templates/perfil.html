@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Perfil {{ user.username }}{% endblock %}
+{% block content %}
+    <style>
+        .collection .collection-item.avatar {
+            min-height: 70px !important;
+        }
+    </style>
+    <div class="container">
+        <br>
+        <p class="center"><b>MEU PERFIL</b></p>
+        <ul class="collection">
+            <li class="collection-item avatar">
+                <i class="material-icons circle green">account_circle</i>
+                <span><b>Utilizador:</b></span>
+                <p class="title">{{ user.username }}</p>
+            </li>
+            <li class="collection-item avatar">
+                <i class="material-icons circle green">person_pin</i>
+                <span><b>Nome Completo:</b></span>
+                <p class="title">{{ rh_data.nome_completo }}</p>
+            </li>
+            <li class="collection-item avatar">
+                <i class="material-icons circle red">location_on</i>
+                <span><b>CO:</b></span>
+                <p class="title">{{ rh_data.co }}</p>
+            </li>
+            <li class="collection-item avatar">
+                <i class="material-icons circle light-blue darken-1">info</i>
+                <span><b>Funcionário Nº:</b></span>
+                <p class="title">{{ rh_data.id_funcionario }}</p>
+            </li>
+            <li class="collection-item avatar">
+                <i class="material-icons circle light-blue darken-1">info</i>
+                <span><b>NIF:</b></span>
+                <p class="title">{{ rh_data.nif|default_if_none:"Sem NIF" }}</p>
+            </li>
+        </ul>
+
+    </div>
+{% endblock %}
